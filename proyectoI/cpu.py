@@ -1,6 +1,7 @@
 from process import *
 
-class Cpu:
+
+class CPU:
 	
 	def __init__(self, pk, quantum = 4):
 		self.pk = pk
