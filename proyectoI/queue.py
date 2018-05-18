@@ -3,7 +3,7 @@
 # Descripcion: Implementacion del TAD Cola usando
 #     	       listas enlazadas
 #
-# Autor: Federico Flaviani
+# Autores: Domingo Arteaga y Edwar Yepez
 #
 
 from linkedList import ListNode, ListIterator

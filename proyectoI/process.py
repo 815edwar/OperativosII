@@ -1,4 +1,4 @@
-class process:
+class Process:
 
 	def __init__(self, pid, required_t, min_t):
 		self.pid = pid
