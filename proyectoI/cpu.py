@@ -15,7 +15,7 @@ class CPU:
 			self.process.min_t = tmp
 
 
-	def free(self)	:
+	def free(self):
 		tmp = self.process
 		self.process = None
 		return tmp
