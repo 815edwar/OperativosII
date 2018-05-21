@@ -1,4 +1,4 @@
-from process import *
+# from process import Process
 
 
 class CPU:

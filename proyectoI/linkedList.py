@@ -77,8 +77,8 @@ class LinkedList:
 # Descripcion: Metodo que devuelve un iterador de la lista
 #     Retorna: iterador de la lista
 
-  def __iter__(self):
-    return ListIterator(self._head)
+  # def __iter__(self):
+  #   return ListIterator(self._head)
 
 # Descripcion: Clase que implementa un iterador de lista
 #   Atributos: _curNode: atributo privado que hace referencia al
@@ -91,8 +91,8 @@ class ListIterator:
 # Descripcion: Metodo que devuelve un iterador de la lista
 #     Retorna: iterador de lista
 
-  def __iter__(self):
-    return self
+  # def __iter__(self):
+  #   return self
 
 # Descripcion: Metodo que devuelve el elemento del proximo nodo 
 #              en el que se encuentra el iterador y actualiza el
