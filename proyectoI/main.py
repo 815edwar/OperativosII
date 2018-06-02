@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
+import os, time
 from cpu import CPU
 from queue import Queue
+from processGenerator import *
+from processMounter import *
+from threading import Semaphore
+from tree import *
 
 class Main:
 
@@ -9,6 +13,11 @@ class Main:
 		self.loop = True
 		self.cores = []
 		self.new_processes = Queue()
+		self.mutex_np = Semaphore()
+		self.num_np = Semaphore(0)
+		self.ready_tree = RedBlackTree()
+		self.mutex_rb = Semaphore()
+		self.num_rb = Semaphore(0)
 
 		for i in range(cores_qty):
 			self.cores.append(CPU(i))
@@ -46,6 +55,17 @@ class Main:
 			else:
 				print("Introduzca una opción válida.")
 
+	def create_process(self):
+		pg = ProcessGenerator(self.new_processes , self.mutex_np, self.num_np)
+		pg.start()
+		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes , self.mutex_np, self.num_np)
+		pm.start()
+		while True:
+			print(self.new_processes._count)
+			print("------------\n")
+			print("-----ARBOL-------\n")
+			print(self.ready_tree)
+			time.sleep(3)
 
 Main = Main()
-Main.run_terminal()
+Main.create_process()
