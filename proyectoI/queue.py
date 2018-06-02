@@ -79,6 +79,6 @@ class Queue:
 # Descripcion: Metodo que devuelve un iterador de la cola
 #     Retorna: iterador de la cola
 
-  # def __iter__(self):
-  #   return ListIterator(self._qhead)
+  def __iter__(self):
+    return ListIterator(self._qhead)
 
