@@ -20,4 +20,7 @@ class Process():
 
 	def __gt__(self, other):
 		return self.min_t > other.min_t
+
+	def __repr__(self):
+		return "Process: " + str(self.pid)
 	
