@@ -11,12 +11,15 @@ class ProcessMounter(Thread):
         self.num_rb = num_rb
 
     def run(self):
-        if (self.num_np.acquire() and self.mutex_np.acquire()):
-        	process = self.new_processes.dequeue()
-        self.mutex_np.release()
+        while True:
+            if (self.num_np.acquire() and self.mutex_np.acquire()):
+                process = self.new_processes.dequeue()
+                print("Proceso desecolado por Mounter")
+            self.mutex_np.release()
 
-        if(self.mutex_rb.acquire()):
-        	self.ready_tree.insert(process)
-        self.mutex_rb.release()
-        self.num_rb.release()
+            if(self.mutex_rb.acquire()):
+                self.ready_tree.insert(process)
+                print("Proceso insertado en arbol por Mounter")
+            self.mutex_rb.release()
+            self.num_rb.release()
     

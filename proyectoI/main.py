@@ -61,6 +61,7 @@ class Main:
 		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes , self.mutex_np, self.num_np)
 		pm.start()
 		while True:
+			print("-----COLA-------\n")
 			print(self.new_processes._count)
 			print("------------\n")
 			print("-----ARBOL-------\n")

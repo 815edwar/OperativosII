@@ -15,10 +15,10 @@ class ProcessGenerator(Thread):
 	def run(self):
 		while True:
 			process = Process(randint(10,120))
-			# print("Proceso creado.")
+			print("Proceso creado.")
 			if (self.mutex_np.acquire()):
 				self.queue.enqueue(process)
-				# print("Proceso encolado.")
+				print("Proceso encolado.")
 			self.mutex_np.release()
 			self.num_np.release()
 			time.sleep(4)
