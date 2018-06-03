@@ -18,7 +18,7 @@ class ProcessMounter(Thread):
             self.mutex_np.release()
 
             if(self.mutex_rb.acquire()):
-                self.ready_tree.insert(process)
+                self.ready_tree.add(process)
                 print("Proceso insertado en arbol por Mounter")
             self.mutex_rb.release()
             self.num_rb.release()
