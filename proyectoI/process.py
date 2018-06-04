@@ -1,3 +1,5 @@
+from stack import *
+
 class Process():
 
 	pid_counter = 0
@@ -6,6 +8,7 @@ class Process():
 		self.pid = self.pid_counter
 		self.required_t = required_t
 		self.min_t = min_t
+		self.last_core = None
 		Process.pid_counter += 1
 
 	def done(self):

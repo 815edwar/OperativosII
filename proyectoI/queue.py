@@ -24,7 +24,7 @@ class Queue:
 #     Retorna: booleano que indica si la cola es vacia
 
   def isEmpty(self):
-      return self._qhead is None
+    return self._qhead is None
 
 
 # Descripcion: Metodo que devuelve la longitud de la cola
@@ -37,31 +37,31 @@ class Queue:
 #   Atributos: item: elemento a ser encolado a la cola
 
   def enqueue(self,item):
-      newNode = ListNode(item)
+    newNode = ListNode(item)
 
-      if self._count == 0:
-          self._qhead = newNode
-          self._qtail = newNode
-          self._count += 1
-      else:
-        x = self._qtail
-        x.next = newNode
-        self._qtail = newNode
-        self._count += 1
+    if self._count == 0:
+      self._qhead = newNode
+      self._qtail = newNode
+      self._count += 1
+    else:
+      x = self._qtail
+      x.next = newNode
+      self._qtail = newNode
+      self._count += 1
 
 # Descripcion: Metodo que desencola la cabeza de la cola
 #     Retorna: Si la cola no es vacia se devuelve el elemento
 #              desencolado
 
   def dequeue(self):
-      if self._count == 0:
-          print("queue underflow")
-          return None
-      else:
-        curNode = self._qhead
-        self._qhead = curNode.next
-        self._count -= 1
-        return curNode.data
+    if self._count == 0:
+      print("queue underflow")
+      return None
+    else:
+      curNode = self._qhead
+      self._qhead = curNode.next
+      self._count -= 1
+      return curNode.data
 
 
 # Descripcion: Metodo que verifica si el elemento target se encuentra
@@ -71,8 +71,10 @@ class Queue:
 
   def __contains__(self, target):
     curNode = self._qhead
+    
     while curNode is not None and curNode.data != target:
       curNode = curNode.next
+    
     return curNode is not None
 
 
@@ -81,4 +83,10 @@ class Queue:
 
   def __iter__(self):
     return ListIterator(self._qhead)
+
+  def __repr__(self):
+    p = "Cola \n"
+    for i in self.__iter__():
+      p += str(i) + "\n"
+    return p
 
