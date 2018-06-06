@@ -2,7 +2,7 @@ from stack import *
 
 class Process():
 
-	pid_counter = 0
+	pid_counter = 2048
 
 	def __init__(self, required_t, min_t=0):
 		self.pid = self.pid_counter

@@ -17,23 +17,22 @@ class Dispatcher(Thread):
     def run(self):
         while True:
             self.num_rb.acquire()
-            print("DISPATCHER DESPERTO")
-            
+
             self.mutex_rb.acquire()
             node = self.ready_tree.minimum()
             self.ready_tree.delete(node)
             self.mutex_rb.release()
 
             self.screen.acquire()
-            print("Proceso " + str(node.key.pid) + " sacado del arbol")
             self.screen.release()
+            
             time.sleep(1 * self.SPEED)
 
             cpu_id = self.dispatch(node.key)
             
             self.screen.acquire()
-            print("Proceso " + str(node.key.pid) + " insertado en cpu " + str(cpu_id))
             self.screen.release()
+
             time.sleep(1 * self.SPEED)
 
 

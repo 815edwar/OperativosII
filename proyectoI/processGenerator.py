@@ -19,7 +19,7 @@ class ProcessGenerator(Thread):
 	def run(self):
 		# while True:
 		for _ in range(16):
-			process = Process(12)
+			process = Process(128)
 			self.mutex_np.acquire()
 			self.queue.enqueue(process)
 			self.mutex_np.release()
@@ -27,7 +27,6 @@ class ProcessGenerator(Thread):
 			self.num_np.release()
 
 			self.screen.acquire()
-			print("Proceso " + str(process.pid) + " generado")
 			self.screen.release()
 
 			time.sleep(self.gen_interval * self.SPEED)
