@@ -51,8 +51,8 @@ class RedBlackTree:
   def __init__(self):
     self.root = NilNode.instance()
     self.size = 0
-    self.posx = 20
-    self.posy = 100
+    self.posx = 60
+    self.posy = 160
     
   def __str__(self):
     return ("(root.size = %d)\n" % self.size)  + str(self.root)
@@ -293,11 +293,11 @@ class RedBlackTree:
     new_px = self.posx
     for node in self.inorder_walk():
       if node.color:
-        tmp = pygame.draw.circle(window,(232, 26, 11), (new_px, self.posy), 20)
+        tmp = pygame.draw.circle(window,(232, 26, 11), (new_px, self.posy), 40)
       else:
-        tmp = pygame.draw.circle(window,(0, 0, 0), (new_px, self.posy), 20)
-      new_px += 60
-      px = tmp.centerx-6
+        tmp = pygame.draw.circle(window,(0, 0, 0), (new_px, self.posy), 40)
+      new_px += 80
+      px = tmp.centerx-20
       py = tmp.centery-10
       process = window.blit(font.render('p' + str(node.key.pid), True, (255,255,255)), (px,py))
 

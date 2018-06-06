@@ -25,13 +25,13 @@ class Dispatcher(Thread):
             self.i_logic['screen'].acquire()
             self.i_logic['screen'].release()
             
-            time.sleep(1 * self.i_logic['speed'])
 
             cpu_id = self.dispatch(node.key)
             
             self.i_logic['screen'].acquire()
             self.i_logic['screen'].release()
 
+            time.sleep(1 * self.i_logic['speed'])
             time.sleep(1 * self.i_logic['speed'])
 
 
