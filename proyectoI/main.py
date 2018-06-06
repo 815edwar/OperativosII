@@ -38,14 +38,6 @@ class Main:
 		self.num_rb = Semaphore(0)
 		
 		self.gen_interval = gen_interval
-		
-		
-		pygame.init()
-		pygame.display.set_caption("CFS")
-		self.window = pygame.display.set_mode((1080,720))
-		self.background_image = pygame.image.load("images/background2.jpg")
-		self.font = pygame.font.SysFont('Arial', 15)
-		self.window.blit(self.background_image,[0,0])
 
 		for i in range(cores_qty):
 			self.cores.append(CPU(i, cpu_slices))
@@ -69,8 +61,6 @@ class Main:
 
 		while self.i_logic['loop']:
 			self.draw()
-			pygame.display.update()
-
 			time.sleep(1)
 			self.iteration += 1
 
@@ -92,20 +82,28 @@ class Main:
 		# self.screen.release()
 
 	def draw(self):
+		pygame.init()
+		window = pygame.display.set_mode((1080,720))
+		background_image = pygame.image.load("images/background2.jpg")
+		background_color = (255,255,255,)
+		window.blit(background_image,[0,0])
+		font = pygame.font.SysFont('Arial', 15)
+		pygame.display.set_caption("CFS")
 
-		self.new_processes.draw(self.window, self.font)
-		self.ready_tree.draw(self.window, self.font)
+		self.new_processes.draw(window, font)
+		self.ready_tree.draw(window, font)
 		
 		px = 0
 		i = 0
 		for c in self.cores:
-			c.draw(self.window,self.font,px)
+			c.draw(window,font,px)
 			px += 110		
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				pygame.quit()
 				sys.exit()
 		
+		pygame.display.update()
 
 
 if __name__ == "__main__":

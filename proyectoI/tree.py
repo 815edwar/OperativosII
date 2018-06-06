@@ -292,17 +292,25 @@ class RedBlackTree:
   def draw(self,window,font):
     new_px = self.posx
     tmp2 = True
+    i = 0
     for node in self.inorder_walk():
-      if tmp2:
-        tmp = pygame.draw.circle(window,(232, 26, 11), (new_px, self.posy), 40)
-        tmp2 = False
+      i += 1
+      if i >= 9:
+        pygame.draw.circle(window,(0, 0, 0), (new_px + 10, self.posy), 10)
+        pygame.draw.circle(window,(0, 0, 0), (new_px + 40, self.posy), 10)
+        pygame.draw.circle(window,(0, 0, 0), (new_px + 70, self.posy), 10)
+      
       else:
-        tmp = pygame.draw.circle(window,(0, 0, 0), (new_px, self.posy), 40)
-        tmp2 = True
-      new_px += 80
-      px = tmp.centerx-20
-      py = tmp.centery-10
-      process = window.blit(font.render('p' + str(node.key.pid), True, (255,255,255)), (px,py))
+        if tmp2:
+          tmp = pygame.draw.circle(window,(232, 26, 11), (new_px, self.posy), 40)
+          tmp2 = False
+        else:
+          tmp = pygame.draw.circle(window,(0, 0, 0), (new_px, self.posy), 40)
+          tmp2 = True
+        new_px += 80
+        px = tmp.centerx-20
+        py = tmp.centery-10
+        process = window.blit(font.render('p' + str(node.key.pid), True, (255,255,255)), (px,py))
 
 if __name__ == "__main__":
   tree = RedBlackTree()
