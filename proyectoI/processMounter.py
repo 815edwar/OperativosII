@@ -24,8 +24,8 @@ class ProcessMounter(Thread):
             self.mutex_np.release()
             
             self.screen.acquire()
-            print("Proceso " + str(process.pid) + " desencolado")
             self.screen.release()
+
             time.sleep(1 * self.SPEED)
 
             self.mutex_rb.acquire()
@@ -35,6 +35,6 @@ class ProcessMounter(Thread):
             self.num_rb.release()
             
             self.screen.acquire()
-            print("Proceso " + str(process.pid) + " agregado al arbol")
             self.screen.release()
+
             time.sleep(1 * self.SPEED)

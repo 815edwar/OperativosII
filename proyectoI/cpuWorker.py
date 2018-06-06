@@ -22,6 +22,7 @@ class CPUWorker(Thread):
             self.run_process()
 
             if not self.cpu.process.done():
+                self.cpu.process.last_core = self.cpu.pk
                 self.mutex_rb.acquire()
                 self.ready_tree.add( self.cpu.process )
                 self.mutex_rb.release()
@@ -38,7 +39,6 @@ class CPUWorker(Thread):
             self.cpu.process.min_t += 1
             
             self.screen.acquire()
-            print("Proceso " + str(self.cpu.process.pid) + " corrio en una unidad en cpu " + str(self.cpu.pk))
             self.screen.release()
             
             time.sleep(1 * self.SPEED)

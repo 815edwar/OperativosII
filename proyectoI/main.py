@@ -9,10 +9,11 @@ from cpuWorker import *
 from threading import Semaphore
 from tree import *
 from pygame.locals import *
+from getopt import getopt, GetoptError
 
 class Main:
 
-	def __init__(self, cores_qty = 4, gen_interval = 1, speed = 1):
+	def __init__(self, cpu_slices = 8, cores_qty = 4, gen_interval = 2, speed = 1):
 		self.SPEED = speed
 		self.screen = Semaphore()
 		self.iteration = 0
@@ -32,38 +33,8 @@ class Main:
 		self.gen_interval = gen_interval
 
 		for i in range(cores_qty):
-			self.cores.append(CPU(i))
+			self.cores.append(CPU(i, cpu_slices))
 
-
-	def print_menu(self):
-		os.system('clear')
-		print(30 * "-" + " MENU " + 30 * "-")
-		print("1. Generar un proceso")
-		print("2. Ver procesos esperando para pasar al árbol de listos")
-		print("3. Imprimir árbol de listos [Proximamente]")
-		print("4. Ver procesadores [Proximamente]")
-		print("5. Salir")
-		print(66 * "-")
-
-
-	def run_terminal(self):
-		while self.loop:
-			self.print_menu()
-			choice = raw_input("Escoja una opción [1-5]: ")
-
-			if choice == "1":	 
-				print("Generar un proceso")
-			elif choice == "2":
-				print("Procesos esperando para pasar al árbol")
-			elif choice == "3":
-				print("[Proximamente]")
-			elif choice == "4":
-				print("[Proximamente]")
-			elif choice == "5":
-				print("Adios")
-				self.loop=False
-			else:
-				print("Introduzca una opción válida.")
 
 	def run(self):
 		pg = ProcessGenerator(self.new_processes, self.mutex_np, self.num_np, self.gen_interval, self.SPEED, self.screen)
@@ -121,5 +92,38 @@ class Main:
 		pygame.display.update()
 
 
-Main = Main()
-Main.run()
+if __name__ == "__main__":
+	try:
+		opts, args = getopt(sys.argv[1:], "", ['cpu-slices=', 'cores-quantity=', 'proc-gen-interval=', 'speed='])
+	except GetoptError as err:
+		print(err) # will print something like "option -a not recognized"
+		sys.exit(2)
+
+	quantum = 8
+	cores_qty = 4
+	gen_interval = 4
+	speed = 1
+	for o, a in opts:
+		if o == "--cpu-slices":
+			quantum = int(a)
+		elif o == "--cores-quantity":
+			cores_qty = int(a)
+		elif o == "--proc-gen-interval":
+			gen_interval = int(a)
+		elif o == "--speed":
+			if a == "ultra_rapida":
+				a = 0
+				speed = a
+			elif a == "rapida":
+				a = 1
+				speed = a
+			elif a == "normal":
+				a = 3
+				speed = a
+			elif a == "lenta":
+				a = 5
+				speed = a
+		else:
+			assert False, "unhandled option"
+	Main = Main(quantum, cores_qty, gen_interval, speed)
+	Main.run()
