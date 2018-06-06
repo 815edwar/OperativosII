@@ -22,7 +22,7 @@ class CPUWorker(Thread):
             if not self.cpu.process.done():
                 self.cpu.process.last_core = self.cpu.pk
                 self.mutex_rb.acquire()
-                self.ready_tree.add( self.cpu.process )
+                self.ready_tree.add( self.cpu.process, time.time() )
                 self.mutex_rb.release()
                 
                 self.num_rb.release()

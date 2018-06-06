@@ -27,7 +27,7 @@ class ProcessMounter(Thread):
 
 
             self.mutex_rb.acquire()
-            self.ready_tree.add(process)
+            self.ready_tree.add(process, time.time())
             self.mutex_rb.release()
             
             self.num_rb.release()

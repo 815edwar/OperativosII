@@ -19,6 +19,8 @@ class Dispatcher(Thread):
 
             self.mutex_rb.acquire()
             node = self.ready_tree.minimum()
+            delta_time = time.time() - node.init_time
+            wait_avg = self.i_logic['wait_avg'] * self.i_logic['total_insertions']
             self.ready_tree.delete(node)
             self.mutex_rb.release()
 

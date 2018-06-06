@@ -23,8 +23,10 @@ class Main:
 		self.i_logic = {
 			'speed' : speed,
 			'loop' : self.loop,
-			'screen' : self.screen
-		}
+			'screen' : self.screen,
+			'wait_avg' : 0,
+			'total_insertions' : 0
+		} 
 
 		self.cores = []
 		self.free_cpus = Semaphore(cores_qty)
