@@ -49,7 +49,6 @@ class CommandLine(Thread):
 			elif choice == "5":
 				print("Adios")
 				self.i_logic['loop'] = False
-				print("i_logic")
 			else:
 				print("Introduzca una opción válida.")
 
