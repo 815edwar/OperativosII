@@ -64,12 +64,10 @@ class Main:
 			time.sleep(1)
 			self.iteration += 1
 
-		print("SALIOOOOOO")
 		sys.exit(2)
 
 
 	def render(self):
-		print("RENDERIZA", self.i_logic)
 		# self.screen.acquire()
 		# print(30 * "-" + "IMPRESION" + str(self.iteration) + 30 * "-")
 		# print(self.new_processes)
@@ -78,8 +76,9 @@ class Main:
 		# print()
 		# print(30 * "-" + "CPU'S" + 30 * "-")
 		# for c in self.cores:
-		# 	print(c)
+		#   print(c)
 		# self.screen.release()
+		pass
 
 	def draw(self):
 		pygame.init()
@@ -97,7 +96,7 @@ class Main:
 		i = 0
 		for c in self.cores:
 			c.draw(window,font,px)
-			px += 110		
+			px += 110       
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				pygame.quit()
@@ -125,10 +124,7 @@ if __name__ == "__main__":
 		elif o == "--proc-gen-interval":
 			gen_interval = int(a)
 		elif o == "--speed":
-			if a == "ultra_rapida":
-				a = 0
-				speed = a
-			elif a == "rapida":
+			if a == "rapida":
 				a = 1
 				speed = a
 			elif a == "normal":

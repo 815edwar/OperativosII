@@ -18,7 +18,7 @@ class ProcessGenerator(Thread):
 	def run(self):
 		# for _ in range(16):
 		while self.i_logic['loop']:
-			process = Process(128)
+			process = Process(randint(12, 32))
 			self.mutex_np.acquire()
 			self.queue.enqueue(process)
 			self.mutex_np.release()
