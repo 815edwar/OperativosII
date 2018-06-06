@@ -15,8 +15,7 @@ class CPUWorker(Thread):
 
     def run(self):
         while self.i_logic['loop']:
-            if self.cpu.free:
-                self.cpu.pending_job.acquire()
+            self.cpu.pending_job.acquire()
 
             self.run_process()
 

@@ -291,11 +291,14 @@ class RedBlackTree:
   
   def draw(self,window,font):
     new_px = self.posx
+    tmp2 = True
     for node in self.inorder_walk():
-      if node.color:
+      if tmp2:
         tmp = pygame.draw.circle(window,(232, 26, 11), (new_px, self.posy), 40)
+        tmp2 = False
       else:
         tmp = pygame.draw.circle(window,(0, 0, 0), (new_px, self.posy), 40)
+        tmp2 = True
       new_px += 80
       px = tmp.centerx-20
       py = tmp.centery-10
