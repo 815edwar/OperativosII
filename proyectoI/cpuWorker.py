@@ -1,15 +1,17 @@
 from threading import Thread
+import time
 
 class CPUWorker(Thread):
-    def __init__(self, cpu, ready_tree, mutex_rb, num_rb, clock, can_run):
+    def __init__(self, cpu, ready_tree, mutex_rb, num_rb, free_cpus, speed, screen):
         super(CPUWorker, self).__init__()
+        self.SPEED = speed
+        self.screen = screen
+
         self.cpu = cpu
         self.ready_tree = ready_tree
         self.mutex_rb = mutex_rb
         self.num_rb = num_rb
-        self.remaining_time = cpu.quantum
-        self.clock = clock
-        self.can_run = can_run
+        self.free_cpus = free_cpus
 
 
     def run(self):
@@ -17,13 +19,29 @@ class CPUWorker(Thread):
             if self.cpu.free:
                 self.cpu.pending_job.acquire()
 
-            self.cpu.run_proccess()
+            self.run_process()
 
-            if not self.cpu.proccess.done():
+            if not self.cpu.process.done():
                 self.mutex_rb.acquire()
-                self.ready_tree.add( self.cpu.proccess )
+                self.ready_tree.add( self.cpu.process )
                 self.mutex_rb.release()
                 
                 self.num_rb.release()
 
+            self.cpu.process = None
             self.cpu.free = True
+            self.free_cpus.release()
+
+
+    def run_process(self):
+        for i in range(self.cpu.quantum):
+            self.cpu.process.min_t += 1
+            
+            self.screen.acquire()
+            print("Proceso " + str(self.cpu.process.pid) + " corrio en una unidad en cpu " + str(self.cpu.pk))
+            self.screen.release()
+            
+            time.sleep(1 * self.SPEED)
+
+            if self.cpu.process.done():
+                return

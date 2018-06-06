@@ -2,32 +2,32 @@ from threading import Semaphore
 
 class CPU:
 	
-	def __init__(self, pk, quantum = 4):
+	def __init__(self, pk, quantum = 8):
 		self.pk = pk
 		self.quantum = quantum
-		self.proccess = None
+		self.process = None
 		self.pending_job = Semaphore(0)
 		self.free = True
 
 
 	def free(self):
-		tmp = self.proccess
-		self.proccess = None
+		tmp = self.process
+		self.process = None
 		return tmp
 
 
-	def rcv_proccess(self, proccess):
-		self.proccess = proccess
+	def rcv_process(self, process):
+		self.process = process
 
 
-	def run_proccess(self):
-		self.proccess.min_t += self.quantum
+	def run_process(self):
+		self.process.min_t += self.quantum
 
 
 	def __repr__(self):
 		cpu = "core: " + str(self.pk) + "\n"\
 		 + "quantum: " + str(self.quantum) + "\n"\
-		 + "proccess: " + str(self.proccess) + "\n" \
+		 + "process: " + str(self.process) + "\n" \
 		 + 30 * "-" + "\n" 
 
 		return cpu

@@ -11,7 +11,11 @@ from tree import *
 
 class Main:
 
-	def __init__(self, cores_qty = 4, gen_interval = 2, speed = 5):
+	def __init__(self, cores_qty = 4, gen_interval = 2, speed = 1):
+		self.SPEED = speed
+		self.screen = Semaphore()
+		self.iteration = 0
+
 		self.loop = True
 		self.cores = []
 		self.free_cpus = Semaphore(cores_qty)
@@ -61,30 +65,34 @@ class Main:
 				print("Introduzca una opción válida.")
 
 	def run(self):
-		pg = ProcessGenerator(self.new_processes, self.mutex_np, self.num_np, self.gen_interval)
+		pg = ProcessGenerator(self.new_processes, self.mutex_np, self.num_np, self.gen_interval, self.SPEED, self.screen)
 		pg.start()
-		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes, self.mutex_np, self.num_np)
+		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes, self.mutex_np, self.num_np, self.SPEED, self.screen)
 		pm.start()
-		d = Dispatcher(self.cores, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus)
+		d = Dispatcher(self.cores, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus, self.SPEED, self.screen)
 		d.start()
 		workers = []
 		for c in self.cores:
-			tmp = CPUWorker(c, self.ready_tree, self.mutex_rb, self.num_rb)
+			tmp = CPUWorker(c, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus, self.SPEED, self.screen)
 			workers.append(tmp)
 			tmp.start()
 
 		while True:
 			self.render()
-			time.sleep(10)
+			time.sleep(1)
+			self.iteration += 1
 
 	def render(self):
-		print(self.new_processes, self.new_processes._count)
+		self.screen.acquire()
+		print(30 * "-" + "IMPRESION" + str(self.iteration) + 30 * "-")
+		print(self.new_processes)
 		print(30 * "-" + "ARBOL" + 30 * "-")
 		print(self.ready_tree)
 		print()
 		print(30 * "-" + "CPU'S" + 30 * "-")
 		for c in self.cores:
 			print(c)
+		self.screen.release()
 
 
 Main = Main()

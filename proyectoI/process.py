@@ -12,7 +12,7 @@ class Process():
 		Process.pid_counter += 1
 
 	def done(self):
-		return self.required_t == self.min_t
+		return self.required_t <= self.min_t
 
 
 	def __eq__(self, other):
@@ -25,5 +25,5 @@ class Process():
 		return self.min_t > other.min_t
 
 	def __repr__(self):
-		return "Process: " + str(self.pid)
+		return "Process: " + str(self.pid) + " min_t: " + str(self.min_t) + " required_t: " + str(self.required_t)
 	
