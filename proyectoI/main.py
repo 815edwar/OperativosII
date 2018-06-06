@@ -11,31 +11,23 @@ from tree import *
 
 class Main:
 
-	def __init__(self, cores_qty = 4, gen_interval = 2):
+	def __init__(self, cores_qty = 4, gen_interval = 2, speed = 5):
 		self.loop = True
 		self.cores = []
+		self.free_cpus = Semaphore(cores_qty)
+		
 		self.new_processes = Queue()
 		self.mutex_np = Semaphore()
 		self.num_np = Semaphore(0)
+		
 		self.ready_tree = RedBlackTree()
 		self.mutex_rb = Semaphore()
 		self.num_rb = Semaphore(0)
-		self.clock = Semaphore(0)
-		self.generate = Semaphore(0)
-		self.free_cpus = Semaphore(cores_qty)
+		
 		self.gen_interval = gen_interval
-		self.secs_to_gen = 0
-		self.iteration = 0
-		self.can_run = {
-			'generator' : Semaphore(1),
-			'mounter' : Semaphore(1),
-			'dispatcher' : Semaphore(1),
-			'cores' : []
-		}
 
 		for i in range(cores_qty):
 			self.cores.append(CPU(i))
-			self.can_run['cores'].append( Semaphore(1) )
 
 
 	def print_menu(self):
@@ -69,54 +61,23 @@ class Main:
 				print("Introduzca una opción válida.")
 
 	def run(self):
-		pg = ProcessGenerator(self.new_processes, self.mutex_np, self.num_np, self.clock, self.generate, self.can_run)
+		pg = ProcessGenerator(self.new_processes, self.mutex_np, self.num_np, self.gen_interval)
 		pg.start()
-		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes , self.mutex_np, self.num_np, self.clock, self.can_run)
+		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes, self.mutex_np, self.num_np)
 		pm.start()
-		d = Dispatcher(self.cores, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus, self.clock, self.can_run)
+		d = Dispatcher(self.cores, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus)
 		d.start()
 		workers = []
 		for c in self.cores:
-			tmp = CPUWorker(c, self.ready_tree, self.mutex_rb, self.num_rb, self.clock, self.can_run)
-			tmp.start()
+			tmp = CPUWorker(c, self.ready_tree, self.mutex_rb, self.num_rb)
 			workers.append(tmp)
+			tmp.start()
 
 		while True:
 			self.render()
-						
-			for c in self.cores:
-				if (not c.free):
-					self.clock.acquire()
-					
-
-			if ( self.ready_tree.size > 0 ):
-				self.clock.acquire()
-
-			if ( self.new_processes._count > 0 ):
-				self.clock.acquire()
-
-			if (self.secs_to_gen == 0):
-				self.secs_to_gen = self.gen_interval
-				self.generate.release()
-				self.clock.acquire()
-			self.secs_to_gen -= 1
-
 			time.sleep(10)
-			
-			for c in self.cores:
-				self.can_run['cores'][c.pk].release()
-
-			self.can_run['dispatcher'].release()
-
-			self.can_run['mounter'].release()
-
-			self.can_run['generator'].release()
-
-			self.iteration += 1
 
 	def render(self):
-
-		print(30 * "-" + "ITERATION " + str(self.iteration) + 30 * "-")
 		print(self.new_processes, self.new_processes._count)
 		print(30 * "-" + "ARBOL" + 30 * "-")
 		print(self.ready_tree)

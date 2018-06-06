@@ -21,7 +21,7 @@ class CPU:
 
 
 	def run_proccess(self):
-		self.proccess.min_t += 1
+		self.proccess.min_t += self.quantum
 
 
 	def __repr__(self):
