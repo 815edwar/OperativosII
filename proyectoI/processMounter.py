@@ -12,7 +12,8 @@ class ProcessMounter(Thread):
         self.num_np = num_np
         self.mutex_rb = mutex_rb
         self.num_rb = num_rb
-
+        self.posx = 60
+        self.posy = 80
 
     def run(self):
         while self.i_logic['loop']:
@@ -37,3 +38,9 @@ class ProcessMounter(Thread):
 
             time.sleep(1 * self.i_logic['speed'])
             time.sleep(1 * self.i_logic['speed'])
+
+    def draw(self,window,font):
+        tmp = pygame.draw.circle(window,(80,70,120), (self.posx, self.posy), 20)
+        px = tmp.centerx-20
+        py = tmp.centery-10
+        process = window.blit(font.render('p' + str(i.pid), True, (255,0,0)), (px,py))
