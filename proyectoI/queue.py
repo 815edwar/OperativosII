@@ -5,7 +5,8 @@
 #
 # Autores: Domingo Arteaga y Edwar Yepez
 #
-
+import pygame, sys
+from pygame.locals import *
 from linkedList import ListNode, ListIterator
 
 # Descripcion: Clase que implementa una cola usando listas enlazadas
@@ -19,7 +20,8 @@ class Queue:
     self._qhead = None
     self._qtail = None
     self._count = 0
-
+    self.posx = 20
+    self.posy = 20
 # Descripcion: Metodo que indica si la cola es vacia o no
 #     Retorna: booleano que indica si la cola es vacia
 
@@ -90,3 +92,12 @@ class Queue:
       p += str(i) + "\n"
     return p
 
+
+  def draw(self,window,font):
+    new_px = self.posx
+    for i in self.__iter__():
+      tmp = pygame.draw.circle(window,(80,70,120), (new_px, self.posy), 20)
+      new_px += 60
+      px = tmp.centerx-6
+      py = tmp.centery-10
+      process = window.blit(font.render('p' + str(i.pid), True, (255,0,0)), (px,py))

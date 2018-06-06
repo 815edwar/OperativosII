@@ -1,3 +1,6 @@
+import pygame, sys
+from pygame.locals import *
+
 class Node:
   RED = True
   BLACK = False
@@ -48,6 +51,8 @@ class RedBlackTree:
   def __init__(self):
     self.root = NilNode.instance()
     self.size = 0
+    self.posx = 20
+    self.posy = 100
     
   def __str__(self):
     return ("(root.size = %d)\n" % self.size)  + str(self.root)
@@ -151,7 +156,7 @@ class RedBlackTree:
     if x is None: x = self.root
     x = self.minimum()
     while x:
-      yield x.key
+      yield x
       x = self.successor(x)
 
   def reverse_inorder_walk(self, x = None):
@@ -284,6 +289,17 @@ class RedBlackTree:
     x.color = Node.BLACK
     
   
+  def draw(self,window,font):
+    new_px = self.posx
+    for node in self.inorder_walk():
+      if node.color:
+        tmp = pygame.draw.circle(window,(232, 26, 11), (new_px, self.posy), 20)
+      else:
+        tmp = pygame.draw.circle(window,(0, 0, 0), (new_px, self.posy), 20)
+      new_px += 60
+      px = tmp.centerx-6
+      py = tmp.centery-10
+      process = window.blit(font.render('p' + str(node.key.pid), True, (255,255,255)), (px,py))
 
 if __name__ == "__main__":
   tree = RedBlackTree()

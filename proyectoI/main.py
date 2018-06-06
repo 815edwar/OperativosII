@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, time
+import os, time, pygame, sys
 from cpu import CPU
 from queue import Queue
 from processGenerator import *
@@ -9,8 +9,8 @@ from cpuWorker import *
 from commandLine import *
 from threading import Semaphore
 from tree import *
+from pygame.locals import *
 from getopt import getopt, GetoptError
-import sys
 
 class Main:
 
@@ -60,7 +60,7 @@ class Main:
 		cl.start()
 
 		while self.i_logic['loop']:
-			self.render()
+			self.draw()
 			time.sleep(1)
 			self.iteration += 1
 
@@ -80,6 +80,30 @@ class Main:
 		# for c in self.cores:
 		# 	print(c)
 		# self.screen.release()
+
+	def draw(self):
+		pygame.init()
+		window = pygame.display.set_mode((1080,720))
+		background_image = pygame.image.load("images/background2.jpg")
+		background_color = (255,255,255,)
+		window.blit(background_image,[0,0])
+		font = pygame.font.SysFont('Arial', 15)
+		pygame.display.set_caption("CFS")
+
+		self.new_processes.draw(window, font)
+		self.ready_tree.draw(window, font)
+		
+		px = 0
+		i = 0
+		for c in self.cores:
+			c.draw(window,font,px)
+			px += 110		
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				pygame.quit()
+				sys.exit()
+		
+		pygame.display.update()
 
 
 if __name__ == "__main__":
