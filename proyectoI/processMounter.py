@@ -12,7 +12,8 @@ class ProcessMounter(Thread):
         self.num_np = num_np
         self.mutex_rb = mutex_rb
         self.num_rb = num_rb
-
+        self.posx = 60
+        self.posy = 80
 
     def run(self):
         while self.i_logic['loop']:
