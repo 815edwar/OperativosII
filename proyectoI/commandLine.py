@@ -1,19 +1,20 @@
 from threading import Thread
 import time
+import os
 
 class CommandLine(Thread):
-    def __init__(self, proc_gen, ready_tree, cores, mutex_np, num_np, screen):
-        super(CPUWorker, self).__init__()
+    def __init__(self, proc_gen, ready_tree, cores, mutex_np, num_np, i_logic):
+        super(CommandLine, self).__init__()
 
-        self.loop = True
+        self.i_logic = i_logic
         self.proc_gen = proc_gen
         self.ready_tree = ready_tree
         self.cores = cores
 
     def run(self):
-    	while self.loop:
+    	while self.i_logic['loop']:
     		self.print_menu()
-    		choice = raw_input("Escoja una opción [1-5]: ")
+    		choice = input("Escoja una opción [1-5]: ")
 
     		if choice == "1":	 
     			print("Generar un proceso")
@@ -25,7 +26,8 @@ class CommandLine(Thread):
     			print("[Proximamente]")
     		elif choice == "5":
     			print("Adios")
-    			self.loop=False
+    			self.i_logic['loop'] = False
+    			print("i_logic")
     		else:
     			print("Introduzca una opción válida.")
 

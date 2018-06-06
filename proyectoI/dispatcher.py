@@ -2,10 +2,9 @@ from threading import Thread
 import time
 
 class Dispatcher(Thread):
-    def __init__(self, cores, ready_tree, mutex_rb, num_rb, free_cpus, speed, screen):
+    def __init__(self, cores, ready_tree, mutex_rb, num_rb, free_cpus, i_logic):
         super(Dispatcher, self).__init__()
-        self.SPEED = speed
-        self.screen = screen
+        self.i_logic = i_logic
 
         self.cores = cores
         self.ready_tree = ready_tree
@@ -15,7 +14,7 @@ class Dispatcher(Thread):
 
  
     def run(self):
-        while True:
+        while self.i_logic['loop']:
             self.num_rb.acquire()
 
             self.mutex_rb.acquire()
@@ -23,17 +22,17 @@ class Dispatcher(Thread):
             self.ready_tree.delete(node)
             self.mutex_rb.release()
 
-            self.screen.acquire()
-            self.screen.release()
+            self.i_logic['screen'].acquire()
+            self.i_logic['screen'].release()
             
-            time.sleep(1 * self.SPEED)
+            time.sleep(1 * self.i_logic['speed'])
 
             cpu_id = self.dispatch(node.key)
             
-            self.screen.acquire()
-            self.screen.release()
+            self.i_logic['screen'].acquire()
+            self.i_logic['screen'].release()
 
-            time.sleep(1 * self.SPEED)
+            time.sleep(1 * self.i_logic['speed'])
 
 
     def dispatch(self, process):

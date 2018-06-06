@@ -6,6 +6,7 @@ from processGenerator import *
 from processMounter import *
 from dispatcher import *
 from cpuWorker import *
+from commandLine import *
 from threading import Semaphore
 from tree import *
 from getopt import getopt, GetoptError
@@ -17,8 +18,14 @@ class Main:
 		self.SPEED = speed
 		self.screen = Semaphore()
 		self.iteration = 0
-
 		self.loop = True
+		
+		self.i_logic = {
+			'speed' : speed,
+			'loop' : self.loop,
+			'screen' : self.screen
+		}
+
 		self.cores = []
 		self.free_cpus = Semaphore(cores_qty)
 		
@@ -37,34 +44,42 @@ class Main:
 
 
 	def run(self):
-		pg = ProcessGenerator(self.new_processes, self.mutex_np, self.num_np, self.gen_interval, self.SPEED, self.screen)
+		pg = ProcessGenerator(self.new_processes, self.mutex_np, self.num_np, self.gen_interval, self.i_logic)
 		pg.start()
-		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes, self.mutex_np, self.num_np, self.SPEED, self.screen)
+		pm = ProcessMounter(self.ready_tree, self.mutex_rb, self.num_rb, self.new_processes, self.mutex_np, self.num_np, self.i_logic)
 		pm.start()
-		d = Dispatcher(self.cores, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus, self.SPEED, self.screen)
+		d = Dispatcher(self.cores, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus, self.i_logic)
 		d.start()
 		workers = []
 		for c in self.cores:
-			tmp = CPUWorker(c, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus, self.SPEED, self.screen)
+			tmp = CPUWorker(c, self.ready_tree, self.mutex_rb, self.num_rb, self.free_cpus, self.i_logic)
 			workers.append(tmp)
 			tmp.start()
 
-		while True:
+		cl = CommandLine(self.new_processes, self.ready_tree, self.cores, self.mutex_np, self.num_np, self.i_logic)
+		cl.start()
+
+		while self.i_logic['loop']:
 			self.render()
 			time.sleep(1)
 			self.iteration += 1
 
+		print("SALIOOOOOO")
+		sys.exit(2)
+
+
 	def render(self):
-		self.screen.acquire()
-		print(30 * "-" + "IMPRESION" + str(self.iteration) + 30 * "-")
-		print(self.new_processes)
-		print(30 * "-" + "ARBOL" + 30 * "-")
-		print(self.ready_tree)
-		print()
-		print(30 * "-" + "CPU'S" + 30 * "-")
-		for c in self.cores:
-			print(c)
-		self.screen.release()
+		print("RENDERIZA", self.i_logic)
+		# self.screen.acquire()
+		# print(30 * "-" + "IMPRESION" + str(self.iteration) + 30 * "-")
+		# print(self.new_processes)
+		# print(30 * "-" + "ARBOL" + 30 * "-")
+		# print(self.ready_tree)
+		# print()
+		# print(30 * "-" + "CPU'S" + 30 * "-")
+		# for c in self.cores:
+		# 	print(c)
+		# self.screen.release()
 
 
 if __name__ == "__main__":

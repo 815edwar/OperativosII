@@ -5,10 +5,9 @@ import time
 
 class ProcessGenerator(Thread):
 
-	def __init__(self, queue, mutex_np, num_np, gen_interval, speed, screen):
+	def __init__(self, queue, mutex_np, num_np, gen_interval, i_logic):
 		super(ProcessGenerator, self).__init__()
-		self.SPEED = speed
-		self.screen = screen
+		self.i_logic = i_logic
 
 		self.queue = queue
 		self.mutex_np = mutex_np
@@ -17,8 +16,8 @@ class ProcessGenerator(Thread):
 
 
 	def run(self):
-		# while True:
-		for _ in range(16):
+		# for _ in range(16):
+		while self.i_logic['loop']:
 			process = Process(128)
 			self.mutex_np.acquire()
 			self.queue.enqueue(process)
@@ -26,7 +25,7 @@ class ProcessGenerator(Thread):
 			
 			self.num_np.release()
 
-			self.screen.acquire()
-			self.screen.release()
+			self.i_logic['screen'].acquire()
+			self.i_logic['screen'].release()
 
-			time.sleep(self.gen_interval * self.SPEED)
+			time.sleep(self.gen_interval * self.i_logic['speed'])

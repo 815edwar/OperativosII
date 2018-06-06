@@ -2,10 +2,9 @@ from threading import Thread
 import time
 
 class CPUWorker(Thread):
-    def __init__(self, cpu, ready_tree, mutex_rb, num_rb, free_cpus, speed, screen):
+    def __init__(self, cpu, ready_tree, mutex_rb, num_rb, free_cpus, i_logic):
         super(CPUWorker, self).__init__()
-        self.SPEED = speed
-        self.screen = screen
+        self.i_logic = i_logic
 
         self.cpu = cpu
         self.ready_tree = ready_tree
@@ -15,7 +14,7 @@ class CPUWorker(Thread):
 
 
     def run(self):
-        while True:
+        while self.i_logic['loop']:
             if self.cpu.free:
                 self.cpu.pending_job.acquire()
 
@@ -38,10 +37,10 @@ class CPUWorker(Thread):
         for i in range(self.cpu.quantum):
             self.cpu.process.min_t += 1
             
-            self.screen.acquire()
-            self.screen.release()
+            self.i_logic['screen'].acquire()
+            self.i_logic['screen'].release()
             
-            time.sleep(1 * self.SPEED)
+            time.sleep(1 * self.i_logic['speed'])
 
             if self.cpu.process.done():
                 return
