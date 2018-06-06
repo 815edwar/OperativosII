@@ -25,6 +25,7 @@ class ProcessMounter(Thread):
             self.i_logic['screen'].acquire()
             self.i_logic['screen'].release()
 
+            time.sleep(1 * self.i_logic['speed'])
 
             self.mutex_rb.acquire()
             self.ready_tree.add(process)
@@ -35,5 +36,4 @@ class ProcessMounter(Thread):
             self.i_logic['screen'].acquire()
             self.i_logic['screen'].release()
 
-            time.sleep(1 * self.i_logic['speed'])
             time.sleep(1 * self.i_logic['speed'])
