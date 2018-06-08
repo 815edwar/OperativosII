@@ -1,4 +1,9 @@
-from stack import *
+#!/usr/bin/env python3
+#
+# Descripcion: Representa una abstraccion de lo que es un proceso de linux
+#
+# Autores: Domingo Arteaga y Edwar Yepez
+#
 
 class Process():
 

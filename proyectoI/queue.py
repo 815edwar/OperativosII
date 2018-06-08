@@ -1,9 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Descripcion: Implementacion del TAD Cola usando
 #     	       listas enlazadas
 #
-# Autores: Domingo Arteaga y Edwar Yepez
+# Autor: Federico Flaviani
+# 
+# Modificado por: Domingo Arteaga y Edwar Yepez
 #
 import pygame, sys
 from pygame.locals import *

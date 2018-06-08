@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+#
+# Descripcion: Implementacion de hilo que se encarga de utilizar los CPU del simulador para
+# correr los procesos que estan en el arbol de listos
+#
+# Autores: Domingo Arteaga y Edwar Yepez
+#
+
 from threading import Thread
 import time
 

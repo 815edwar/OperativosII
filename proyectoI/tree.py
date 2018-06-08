@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+#
+# Descripcion: Implementacion de arbol rojo negro
+#
+# Autor: Radoslaw Bulat
+# 
+# Modificado por: Domingo Arteaga y Edwar Yepez
+#
+
 import pygame, sys
 from pygame.locals import *
 

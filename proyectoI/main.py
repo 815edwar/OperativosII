@@ -1,4 +1,11 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# Descripcion: Implementacion de hilo que se encarga iniciar el simulador de despachador de
+# procesos de linux
+#
+# Autores: Domingo Arteaga y Edwar Yepez
+#
 import os, time, pygame, sys
 from cpu import CPU
 from queue import Queue
@@ -66,19 +73,6 @@ class Main:
 
 		sys.exit(2)
 
-
-	def render(self):
-		# self.screen.acquire()
-		# print(30 * "-" + "IMPRESION" + str(self.iteration) + 30 * "-")
-		# print(self.new_processes)
-		# print(30 * "-" + "ARBOL" + 30 * "-")
-		# print(self.ready_tree)
-		# print()
-		# print(30 * "-" + "CPU'S" + 30 * "-")
-		# for c in self.cores:
-		#   print(c)
-		# self.screen.release()
-		pass
 
 	def draw(self):
 		pygame.init()

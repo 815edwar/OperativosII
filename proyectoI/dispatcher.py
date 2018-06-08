@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+#
+# Descripcion: Implementacion de hilo que se encarga de despachar los procesos de la
+# arbol de listos a los distintos CPU tomando en cuenta el ultimo CPU en el cual se 
+# corrio el proceso, en caso de que exista para que sea el primero en tomar en cuenta
+# para el despacho
+#
+# Autores: Domingo Arteaga y Edwar Yepez
+#
+
 from threading import Thread
 import time
 

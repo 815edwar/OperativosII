@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+#
+# Descripcion: Clase CPU que se utiliza como abstraccion para representar los CPU del simulador de
+# despachador de linux
+#
+# Autores: Domingo Arteaga y Edwar Yepez
+#
+
 from threading import Semaphore
 import pygame, sys
 from pygame.locals import *

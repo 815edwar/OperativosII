@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Descripcion: Clase Nodo, Lista y ListaIterator que implementan el
 #     	       TAD lista de forma enlazada
 #
 # Autor: Federico Flaviani
 # 
+# Modificado por: Domingo Arteaga y Edwar Yepez
 
 # Descripcion: Clase que implementa el nodo de una lista
 #   Atributos: data: almacena el contenido del nodo

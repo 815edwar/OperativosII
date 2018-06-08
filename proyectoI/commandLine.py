@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+#
+# Descripcion: Implementacion de hilo que se encarga de recibir y procesar las tareas por linea
+# de comando para el simulador de despachador de linux
+#
+# Autores: Domingo Arteaga y Edwar Yepez
+#
+
 from threading import Thread
 from process import *
 import time
