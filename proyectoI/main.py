@@ -14,7 +14,7 @@ from processMounter import *
 from dispatcher import *
 from cpuWorker import *
 from commandLine import *
-from threading import Semaphore
+from threading import Semaphore, Lock
 from tree import *
 from pygame.locals import *
 from getopt import getopt, GetoptError
@@ -23,7 +23,7 @@ class Main:
 
 	def __init__(self, cpu_slices = 8, cores_qty = 4, gen_interval = 2, speed = 1):
 		self.SPEED = speed
-		self.screen = Semaphore()
+		self.screen = Lock()
 		self.iteration = 0
 		self.loop = True
 		
@@ -37,11 +37,11 @@ class Main:
 		self.free_cpus = Semaphore(cores_qty)
 		
 		self.new_processes = Queue()
-		self.mutex_np = Semaphore()
+		self.mutex_np = Lock()
 		self.num_np = Semaphore(0)
 		
 		self.ready_tree = RedBlackTree()
-		self.mutex_rb = Semaphore()
+		self.mutex_rb = Lock()
 		self.num_rb = Semaphore(0)
 		
 		self.gen_interval = gen_interval

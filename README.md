@@ -1,4 +1,4 @@
-# OperativosII
+# Operativos II
 
 # Proyecto I - Simulador de despachador de procesos linux
 
